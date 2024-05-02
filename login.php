@@ -26,7 +26,7 @@ if (isset($_GET['token'])) {
         $_SESSION['user_token'] = $stored_token;
         $_SESSION['user_id'] = $user_id;
         $_SESSION['username'] = $username;
-        header("Location: /profil.php?username={$username}");
+        header("Location: /profile");
 
     } else {
         echo "Le token n'est pas valide";
