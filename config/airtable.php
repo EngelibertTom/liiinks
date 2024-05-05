@@ -74,11 +74,12 @@ function getLinks($base_id, $table_id, $user_id, $key) {
     $result = json_decode($response);
     $stored_token = $result->fields->token;
 
-    $instagram = $result->fields->Instagram;
-    $twitter = $result->fields->Twitter;
-    $behance = $result->fields->Behance;
-    $linkedin = $result->fields->Linkedin;
-    $facebook =$result->fields->Facebook;
+    $instagram = isset($result->fields->Instagram) ? $result->fields->Instagram : null;
+    $twitter = isset($result->fields->Twitter) ? $result->fields->Twitter : null;
+    $behance = isset($result->fields->Behance) ? $result->fields->Behance : null;
+    $linkedin = isset($result->fields->Linkedin) ? $result->fields->Linkedin : null;
+    $facebook = isset($result->fields->Facebook) ? $result->fields->Facebook : null;
+
 
     $links = [$instagram, $twitter, $behance, $linkedin, $facebook];
 
@@ -110,5 +111,32 @@ function sendCustoms($main_color, $background_gradient, $font_group, $biography,
     $result = file_get_contents($url, false, $context);
 
     return $result;
+
+}
+
+function getCustoms($base_id, $table_id, $user_id, $key) {
+
+    $url = "https://api.airtable.com/v0/{$base_id}/{$table_id}/{$user_id}";
+    $options = array(
+        'http' => array(
+            'header' => "Content-Type: application/json\r\nAuthorization: Bearer {$key}",
+            'method' => 'GET',
+        )
+    );
+    $context = stream_context_create($options);
+    $response = file_get_contents($url, false, $context);
+    $result = json_decode($response);
+    $stored_token = $result->fields->token;
+
+    $bio = isset($result->fields->bio) ? $result->fields->bio : null;
+    $maincolor = isset($result->fields->maincolor) ? $result->fields->maincolor : null;
+    $gradiant = isset($result->fields->gradiant) ? $result->fields->gradiant : null;
+    $font = isset($result->fields->font) ? $result->fields->font : null;
+
+
+    $customs = [$bio, $maincolor, $gradiant, $font];
+
+    return $customs;
+
 
 }
